@@ -2,7 +2,7 @@
 
 Name:		rt2870
 Version:	1.4.0.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
@@ -32,8 +32,8 @@ echo "Nothing to build."
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless
-install  -p -m 0644 RT2870STA.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/
+install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
+install  -p -m 0644 RT2870STA.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,10 +41,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc ReleaseNotes README_STA iwpriv_usage.txt
-%dir %{_sysconfdir}/Wireless
-%config(noreplace) %{_sysconfdir}/Wireless/RT2870STA.dat
+%dir %{_sysconfdir}/Wireless/RT2870STA
+%config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA.dat
 
 %changelog
+* Tue Oct 07 2008 Orcan Ogetbil  <orcanbahri[AT]yahoo[DOT]com> - 1.4.0.0-1.1
+- Install RT2870STA.dat at the "right" place
+
 * Sat Oct 04 2008 Orcan Ogetbil  <orcanbahri[AT]yahoo[DOT]com> - 1.4.0.0-1
 - Rebuild for 1.4.0.0
 - Added iwpriv_usage.txt into package
