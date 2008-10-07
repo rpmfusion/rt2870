@@ -2,7 +2,7 @@
 
 Name:		rt2870
 Version:	1.4.0.0
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
@@ -41,10 +41,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc ReleaseNotes README_STA iwpriv_usage.txt
+%dir %{_sysconfdir}/Wireless
 %dir %{_sysconfdir}/Wireless/RT2870STA
 %config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA.dat
 
 %changelog
+* Tue Oct 07 2008 Orcan Ogetbil  <orcanbahri[AT]yahoo[DOT]com> - 1.4.0.0-2
+- Re-own %%{_sysconfdir}/Wireless/
+
 * Tue Oct 07 2008 Orcan Ogetbil  <orcanbahri[AT]yahoo[DOT]com> - 1.4.0.0-1.1
 - Install RT2870STA.dat at the "right" place
 
