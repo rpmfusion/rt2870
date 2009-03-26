@@ -1,8 +1,8 @@
-%define SourceName 2008_0925_RT2870_Linux_STA_v1.4.0.0
+%define SourceName 2009_0302_RT2870_Linux_STA_v2.1.0.0
 
 Name:		rt2870
-Version:	1.4.0.0
-Release:	3%{?dist}
+Version:	2.1.0.0
+Release:	1%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
@@ -18,15 +18,26 @@ Requires:	%{name}-kmod >= %{version}
 
 %description
 This package contains the linux kernel module files for the Ralink rt2870
-driver for WiFi, a linux device driver for 802.11a/b/g universal NIC cards -
-either PCI, PCIe or MiniPCI - that use Ralink rt2870 chipsets.
+driver for WiFi, a linux device driver for USB 802.11a/b/g universal NIC cards
+that use Ralink rt2870 chipsets.
 
 %prep
 %setup -q -n %{SourceName}
-iconv -f JOHAB -t UTF8 %{SOURCE1} -o ./ReleaseNotes
-sed -i 's/\r//' ./ReleaseNotes
-iconv -f JOHAB -t UTF8 README_STA -o README_STA
-sed -i 's/\r//' README_STA
+
+# Fix bunch of encoding and permission issues
+sed 's|\r||' %{SOURCE1} > ReleaseNotes
+touch -r  %{SOURCE1} ReleaseNotes
+
+sed 's|\r||' sta_ate_iwpriv_usage.txt > tmpfile
+iconv -f JOHAB -t UTF8 tmpfile -o tmpfile2
+touch -r sta_ate_iwpriv_usage.txt tmpfile2
+mv -f tmpfile2 sta_ate_iwpriv_usage.txt
+
+iconv -f JOHAB -t UTF8 README_STA > tmpfile
+touch -r README_STA tmpfile
+mv -f tmpfile README_STA
+
+chmod -x *.txt
 
 %build
 echo "Nothing to build."
@@ -35,22 +46,25 @@ echo "Nothing to build."
 rm -rf $RPM_BUILD_ROOT
 install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 install -pm 0644 RT2870STA.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
-
-install -dm 755 $RPM_BUILD_ROOT/%{_datadir}/%{name}
-install -pm 0755 %{SOURCE2} $RPM_BUILD_ROOT/%{_datadir}/%{name}
+cp -a %{SOURCE2} .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc ReleaseNotes README_STA iwpriv_usage.txt
+%doc ReleaseNotes README_STA *.txt suspend.sh
 %dir %{_sysconfdir}/Wireless
 %dir %{_sysconfdir}/Wireless/RT2870STA
 %config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA.dat
-%{_datadir}/%{name}
+
 
 %changelog
+* Thu Mar 26 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 2.1.0.0-1
+- Rebuild for 2.1.0.0
+- Move suspend.sh to %%doc
+- Fix description: rt2870 is USB only
+
 * Tue Mar 10 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-3
 - Add suspend script (RPMFusion BZ#199)
 
