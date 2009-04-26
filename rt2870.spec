@@ -1,13 +1,13 @@
-%define SourceName 2009_0302_RT2870_Linux_STA_v2.1.0.0
+%define SourceName 2009_0424_RT2870_Linux_STA_V2.1.1.0
 
 Name:		rt2870
-Version:	2.1.0.0
+Version:	2.1.1.0
 Release:	1%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
 URL:		http://www.ralinktech.com/ralink/Home/Support/Linux.html
-Source0:	http://www.ralinktech.com.tw/data/drivers/%{SourceName}.tar.bz2
+Source0:	http://www.ralinktech.com.tw/data/drivers/%{SourceName}.tgz
 Source1:	http://www.ralinktech.com.tw/data/drivers/ReleaseNote-RT2870.txt
 Source2:	suspend.sh
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -45,7 +45,7 @@ echo "Nothing to build."
 %install
 rm -rf $RPM_BUILD_ROOT
 install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
-install -pm 0644 RT2870STA.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
+install -pm 0644 RT2870STA*.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 cp -a %{SOURCE2} .
 
 %clean
@@ -56,10 +56,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc ReleaseNotes README_STA *.txt suspend.sh
 %dir %{_sysconfdir}/Wireless
 %dir %{_sysconfdir}/Wireless/RT2870STA
-%config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA.dat
+%config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA*.dat
 
 
 %changelog
+* Sat Apr 24 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 2.1.1.0-1
+- version update (2.1.1.0)
+
 * Thu Mar 26 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 2.1.0.0-1
 - Rebuild for 2.1.0.0
 - Move suspend.sh to %%doc
