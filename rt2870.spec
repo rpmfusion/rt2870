@@ -1,7 +1,7 @@
-%define SourceName 2009_0424_RT2870_Linux_STA_V2.1.1.0
+%define SourceName 2009_0521_RT2870_Linux_STA_V2.1.2.0
 
 Name:		rt2870
-Version:	2.1.1.0
+Version:	2.1.2.0
 Release:	1%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
@@ -41,6 +41,7 @@ chmod -x *.txt
 
 %build
 echo "Nothing to build."
+sleep 1m
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -60,6 +61,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri May 22 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-1
+- version update (2.1.2.0)
+
 * Sat Apr 24 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 2.1.1.0-1
 - version update (2.1.1.0)
 
@@ -71,13 +75,13 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Mar 10 2009 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-3
 - Add suspend script (RPMFusion BZ#199)
 
-* Tue Oct 07 2008 Orcan Ogetbil  <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-2
+* Tue Oct 07 2008 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-2
 - Re-own %%{_sysconfdir}/Wireless/
 
-* Tue Oct 07 2008 Orcan Ogetbil  <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-1.1
+* Tue Oct 07 2008 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-1.1
 - Install RT2870STA.dat at the "right" place
 
-* Sat Oct 04 2008 Orcan Ogetbil  <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-1
+* Sat Oct 04 2008 Orcan Ogetbil <oget[DOT]fedora[AT]gmail[DOT]com> - 1.4.0.0-1
 - Rebuild for 1.4.0.0
 - Added iwpriv_usage.txt into package
 
