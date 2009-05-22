@@ -1,3 +1,6 @@
+[V2.1.2.0]
+1. Short GI sampling improvement.
+2. Support Linux Kernel 2.6.29
 [V2.1.1.0]
 1. Fixed that Enqueue command to command thread would fail when HAS_KTHREAD_SUPPORT=n in config.mk.
 2. Fixed driver would send zero IWEVASSOCREQIE to Native WpaSupplicant.
