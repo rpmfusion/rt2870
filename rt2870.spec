@@ -2,7 +2,7 @@
 
 Name:		rt2870
 Version:	2.1.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
@@ -40,7 +40,8 @@ mv -f tmpfile README_STA
 chmod -x *.txt
 
 %build
-echo "Nothing to build."
+# Needed for WPA2 support (RFBZ #664)
+sed -i 's|HT_DisallowTKIP=1|HT_DisallowTKIP=0|' RT2870STA.dat
 sleep 1m
 
 %install
@@ -61,6 +62,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 17 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-2
+- Modify RT2870STA.dat to support WPA2 (RFBZ #664)
+
 * Fri May 22 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-1
 - version update (2.1.2.0)
 
