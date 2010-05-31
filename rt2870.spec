@@ -2,14 +2,18 @@
 
 Name:		rt2870
 Version:	2.1.2.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
 URL:		http://www.ralinktech.com/ralink/Home/Support/Linux.html
 Source0:	http://www.ralinktech.com.tw/data/drivers/%{SourceName}.tgz
 Source1:	http://www.ralinktech.com.tw/data/drivers/ReleaseNote-RT2870.txt
+# Alternative suspend script. Might not be necessary anymore.
+# Kept for historical reasons.
 Source2:	suspend.sh
+# Blacklist the module shipped with kernel
+Source3:	blacklist-rt2800usb.conf
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -49,6 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 install -pm 0644 RT2870STA*.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 cp -a %{SOURCE2} .
+install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/modprobe.d/
+cp -a %{SOURCE3} $RPM_BUILD_ROOT/%{_sysconfdir}/modprobe.d/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,9 +65,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/Wireless
 %dir %{_sysconfdir}/Wireless/RT2870STA
 %config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA*.dat
-
+%config(noreplace) %{_sysconfdir}/modprobe.d/blacklist-rt2800usb.conf
 
 %changelog
+* Fri Dec 04 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-2.1
+- Blacklist kernel's rt2800usb module
+
 * Wed Jun 17 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-2
 - Modify RT2870STA.dat to support WPA2 (RFBZ #664)
 
