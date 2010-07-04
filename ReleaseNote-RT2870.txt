@@ -1,64 +1,10 @@
-[V2.1.2.0]
-1. Short GI sampling improvement.
-2. Support Linux Kernel 2.6.29
-[V2.1.1.0]
-1. Fixed that Enqueue command to command thread would fail when HAS_KTHREAD_SUPPORT=n in config.mk.
-2. Fixed driver would send zero IWEVASSOCREQIE to Native WpaSupplicant.
-3. Fixed driver would send non-zero BSSID to Navtive WpaSupplicant when STA disconnecting to AP.
+[2.4.0.0]
 
-[V2.1.0.0]
-1. New generation schema for multiple OS porting.
-2. Fixed Ad-hoc ping failed in noisy environment. (Probe Response has too many retry
-   packet then cause "not enough space in MgmtRing").
-3. Fixed WPS failed with D-Link DIR-628 in 5GHz.
-4. Change FastRoaming in DAT file to AutoRoaming.
-5. Support kthread.
-6. Add New A band channel list region 15 contains the whole channels in the A band region
-4 and the new CE channel 167,169,171,173.
-7. New IEEE802.11r functionality.
+1. Fix Adhoc issue.
+2. Fix issue: Correct RSSI, SNR, Noise calculation 
+3. Fix issue: STA cannot connect to OPEN-WEP AP if WpaSupplicant set
+4. Add an ATE command for AUTOALC.
+5. Add an ATE command for interpacket GAP.
+6. Add an ATE command for ATE payload pattern.
 
-[V1.4.0.0]
-1. Add IWEVGENIE in iwlist ra0 scan.
-2. Add new WSC hardware push button function
-3. Add Ad-Hoc to support N rate.
-4. Add "iwpriv ra0 set CarrierDetect=0(or 1)"
-5. Add Station N only mode in Infra mode. (Only connects to N-AP)
-6. Add Global country domain (ch1-11:active scan, ch12-14 passive scan)
-7. Fixed connection failed with Range Maximizer - 515 AP (Marvell Chip) when security is WPAPSK/TKIP.
-8. Fixed crash in LinkDown when there are >64 APs exists.
-9. Fixed compile error when CARRIER_DETECTION_SUPPORT is enabled.
-10. Fixed suspend/resume error when ra0 down, ra0 up
-11. Modified iwpriv ra0 get_site_survey: When security of AP is OPEN/WEP or SHARED/WEP, show UNKNOW/WEP in scan list.
-12. When the secondary channel of AP exceeds the country region's range, station will auto fallback to 20MHz. i.e. need both control and secondary channel are both
-        in country region's channel list.
-13. Migrate Mesh supporting to Draft-2.0.
-14. Support DLS
-15. Support WAPI functionality
-16. Support Linux Kernel 2.6.27
-17. Fixed WPS failed when AP is not in scan table or AP's channel changing after user sets "iwpriv ra0 wsc_start"
-18. Add WPS Wireless Event strings.
-19. Fixed WPA(2)PSK issue when group cipher of AP is WEP40 or WEP104.
-
-
-[V1.3.0.0]
-1. Fixed issue of Radar Channel flag building with HAS_EXT_BUILD_CHANNEL_LIST=n.
-2. Fixed issue of Adhoc-STA would create in radar channel.
-3. Fixed LED issue of "ifconfig ra0 down".
-4. Support Linux Kernel 2.6.24
-5. Support SNMP
-6. Support Debug Diagnose
-7. Add IEEE802.11d Client Mode: None, Flexible, Strcit.
-8. Add two ioctl commands to change tx long/short retry limit.
-9. Fixed WPS STA is hard to do WPS process with Broadcom WPS AP Proxy and Marvell WPS External Registrar.
-10. Fixed WPS STA didn't send dis-assoc to AP after WPS processing.
-11. Fixed WPAPSK rekey problem when A-MSDU is enabled.
-
-[V1.2.0.0]
-1. Add Legacy Power Saving Mode.
-2. Add BaSmartHardTransmit mechanism.
-3. Modify rate adaptation for fast ramp-up tuning. 
-4. Support custom wireless event.
-5. Support Linux Kernel 2.6 suspend and resume.
-6. Fixed W52 with Activity scan issue in ABG_MIXED and ABGN_MIXED mode.
-7. Fixed fixed rate issue in N mode and fixed rate ioctl.
 
