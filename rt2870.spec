@@ -1,15 +1,20 @@
-%define SourceName 2009_0521_RT2870_Linux_STA_V2.1.2.0
+%define SourceName 2010_06_25_RT2870_Linux_STA_v2.4.0.0
 
 Name:		rt2870
-Version:	2.1.2.0
-Release:	2%{?dist}
+Version:	2.4.0.0
+Release:	1%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
-URL:		http://www.ralinktech.com/ralink/Home/Support/Linux.html
-Source0:	http://www.ralinktech.com.tw/data/drivers/%{SourceName}.tgz
-Source1:	http://www.ralinktech.com.tw/data/drivers/ReleaseNote-RT2870.txt
+URL:		http://www.ralinktech.com/support.php?s=2
+# No direct links anymore. The sources are downloaded from the above page.
+Source0:	%{SourceName}.tgz
+Source1:	ReleaseNote-RT2870.txt
 Source2:	suspend.sh
+# Blacklist the module shipped with kernel
+Source3:	blacklist-rt2800usb.conf
+# Needed for WPA2 support (RFBZ #664)
+Patch0:		rt2870-allowTKIP.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -23,6 +28,7 @@ that use Ralink rt2870 chipsets.
 
 %prep
 %setup -q -n %{SourceName}
+%patch0 -p1 -b .allowTKIP
 
 # Fix bunch of encoding and permission issues
 sed 's|\r||' %{SOURCE1} > ReleaseNotes
@@ -33,15 +39,17 @@ iconv -f JOHAB -t UTF8 tmpfile -o tmpfile2
 touch -r sta_ate_iwpriv_usage.txt tmpfile2
 mv -f tmpfile2 sta_ate_iwpriv_usage.txt
 
+sed 's|\r||' LICENSE\ ralink-firmware.txt > tmpfile
+touch -r LICENSE\ ralink-firmware.txt tmpfile
+mv -f tmpfile LICENSE\ ralink-firmware.txt
+
 iconv -f JOHAB -t UTF8 README_STA > tmpfile
 touch -r README_STA tmpfile
 mv -f tmpfile README_STA
 
-chmod -x *.txt
+chmod -x *.txt README_STA
 
 %build
-# Needed for WPA2 support (RFBZ #664)
-sed -i 's|HT_DisallowTKIP=1|HT_DisallowTKIP=0|' RT2870STA.dat
 sleep 1m
 
 %install
@@ -49,6 +57,10 @@ rm -rf $RPM_BUILD_ROOT
 install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 install -pm 0644 RT2870STA*.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 cp -a %{SOURCE2} .
+%if 0%{fedora} < 14
+install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/modprobe.d/
+cp -a %{SOURCE3} $RPM_BUILD_ROOT/%{_sysconfdir}/modprobe.d/
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -59,9 +71,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/Wireless
 %dir %{_sysconfdir}/Wireless/RT2870STA
 %config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA*.dat
-
+%if 0%{fedora} < 14
+%config(noreplace) %{_sysconfdir}/modprobe.d/blacklist-rt2800usb.conf
+%endif
 
 %changelog
+* Sat Jun 26 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.4.0.0-1
+- Update to 2.4.0.0
+
+* Fri Dec 04 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-2.1
+- Blacklist kernel's rt2800usb module
+
 * Wed Jun 17 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.1.2.0-2
 - Modify RT2870STA.dat to support WPA2 (RFBZ #664)
 
