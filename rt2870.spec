@@ -1,14 +1,14 @@
-%define SourceName 2010_06_25_RT2870_Linux_STA_v2.4.0.0
+%define SourceName 2010_0709_RT2870_Linux_STA_v2.4.0.1
 
 Name:		rt2870
-Version:	2.4.0.0
+Version:	2.4.0.1
 Release:	1%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
 URL:		http://www.ralinktech.com/support.php?s=2
 # No direct links anymore. The sources are downloaded from the above page.
-Source0:	%{SourceName}.tgz
+Source0:	%{SourceName}.tar.bz2
 Source1:	ReleaseNote-RT2870.txt
 Source2:	suspend.sh
 # Blacklist the module shipped with kernel
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Sat Jul 10 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.4.0.1-1
+- Update to 2.4.0.1
+
 * Sat Jun 26 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.4.0.0-1
 - Update to 2.4.0.0
 
