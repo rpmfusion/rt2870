@@ -1,8 +1,9 @@
-%define SourceName 2010_0709_RT2870_Linux_STA_v2.4.0.1
+%global blacklist_up_to_fedora 15
+%global SourceName 2010_0709_RT2870_Linux_STA_v2.4.0.1
 
 Name:		rt2870
 Version:	2.4.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Common files for RaLink rt2870 kernel driver
 Group:		System Environment/Kernel
 License:	GPLv2+
@@ -57,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 install -pm 0644 RT2870STA*.dat $RPM_BUILD_ROOT/%{_sysconfdir}/Wireless/RT2870STA/
 cp -a %{SOURCE2} .
-%if 0%{fedora} < 14
+%if 0%{fedora} < %{blacklist_up_to_fedora}
 install -dm 755 $RPM_BUILD_ROOT/%{_sysconfdir}/modprobe.d/
 cp -a %{SOURCE3} $RPM_BUILD_ROOT/%{_sysconfdir}/modprobe.d/
 %endif
@@ -71,11 +72,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/Wireless
 %dir %{_sysconfdir}/Wireless/RT2870STA
 %config(noreplace) %{_sysconfdir}/Wireless/RT2870STA/RT2870STA*.dat
-%if 0%{fedora} < 14
+%if 0%{fedora} < %{blacklist_up_to_fedora}
 %config(noreplace) %{_sysconfdir}/modprobe.d/blacklist-rt2800usb.conf
 %endif
 
 %changelog
+* Thu Mar 24 2011 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.4.0.1-2
+- Blacklist kernel rt2870 modules up to Fedora 15
+
 * Sat Jul 10 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 2.4.0.1-1
 - Update to 2.4.0.1
 
